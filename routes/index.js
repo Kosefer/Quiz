@@ -4,6 +4,7 @@ var router = express.Router();
 var quizController = require('../controllers/quiz_controller');
 var commentController = require('../controllers/comment_controller');
 var sessionController = require('../controllers/session_controller');
+var statsController = require('../controllers/stats_controller');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -28,7 +29,8 @@ router.get('/quizes/:quizId(\\d+)/edit',	quizController.edit);
 router.put('/quizes/:quizId(\\d+)',			quizController.update);
 router.delete('/quizes/:quizId(\\d+)',		quizController.destroy);
 router.get('/quizes/author',				quizController.author);
-router.get('/quizes/statistics',			quizController.statistics);
+
+router.get('/statistics',			statsController.statistics);
 
 router.get('/quizes/:quizId(\\d+)/comments/new',	commentController.new);
 router.post('/quizes/:quizId(\\d+)/comments',		commentController.create);

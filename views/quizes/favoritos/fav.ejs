@@ -1,0 +1,22 @@
+<center>
+<table>
+	<% 
+	console.log(favourites);
+	var i; for (i=0; i< favourites.length; i++) { 
+		var j; var numQuiz=0; for (j=0; j<quizes.length; j++) {
+			if(favourites[i].QuizId === quizes[j].id) {
+				numQuiz = j;
+			}
+			console.log('numQuiz: '+numQuiz);
+		}%>
+		<tr>
+			<td>
+				<form method="post" action="/user/<%=session.user.id%>/favourites/<%=quizes[numQuiz].id%>?_method=delete">
+					<input type="image" src="/images/estrella_amarilla.png" onClick="return confirm('Borrar preferido')" alt="submit" height="25" width="25">
+				</form>
+			</td>
+			<td><a href="/quizes/<%= quizes[numQuiz].id %>"><%= quizes[numQuiz].pregunta %></a></td>
+		</tr>
+	<% } %>
+</table>
+</center>

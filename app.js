@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var partials = require('express-partials');
 var methodOverride = require('method-override');
 var session = require('express-session');
+var https = require('https');
 
 var routes = require('./routes/index');
 
@@ -30,6 +31,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Helpers dinamicos:
 app.use(function(req, res, next) {
 
+    // si no existe se inicializa
+    if (!req.session.redir) {
+        req.session.redir = '/';
+    }
+
 	// guardar path en session.redir para despues de login
 	if (!req.path.match(/\/login|\/logout/)) {
 		req.session.redir = req.path;
@@ -44,7 +50,6 @@ app.use(function(req, res, next) {
             }
             else{
                 res.locals.session.user.last_login = new Date().getTime();
-                console.log(res.locals.session.user.last_login);
             }
         }
        next();

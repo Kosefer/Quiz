@@ -1,3 +1,12 @@
+// MW de autorización de accesos HTTP rstringidos
+exports.loginRequired = function(req, res, next){
+	if (req.session.user) {
+		next();
+	} else {
+		res.redirect('/login');
+	}
+};
+
 // Get /login -- Formulario de login
 exports.new = function(req, res) {
 	var errors = req.session.errors || {};
@@ -23,8 +32,8 @@ exports.create = function(req, res) {
 
 		// Crear req.session.user y guardar campos id y username
 		// La sesión se define por la existencia de: req.session.user
-		req.session.user = {id:user.id, username:user.username, last_login:(new Date().getTime())};
-		console.log(req.session.user.last_login);
+		req.session.user = {id:user.id, username:user.username, last_login:(new Date().getTime()), isAdmin: user.isAdmin};
+
 		res.redirect(req.session.redir.toString()); // redirección a patch anterior a login
 	});
 };

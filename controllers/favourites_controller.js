@@ -3,9 +3,13 @@ var models = require('../models/models.js');
 exports.list = function(req, res){
 	var UserId= req.session.user.id;
 	models.User.find({ where: { id: Number(UserId)}, include: [{ model: models.Quiz }] }).then(function(user){
-		models.Favourite.findAll({where: {UserId: UserId, favorito: true}}).then(function(favourites) {
-			res.render('quizes/favoritos/fav.ejs',{user: user, quizes: user.Quizzes, favourites: favourites, errors: []});
+		user.getQuizzes().then(function(quizes){
+			res.render('quizes/favoritos/fav.ejs', {quizes: quizes, errors: []});
 		});
+//		models.Favourite.findAll({where: {UserId: UserId, favorito: true}}).then(function(favourites) {
+	
+//			res.render('quizes/favoritos/fav.ejs',{user: user, quizes: quizes, favourites: favourites, errors: []});
+//		});
 	});
 };
 
